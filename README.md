@@ -26,7 +26,7 @@ VS Code에서 점랭(`.jeom`) 파일을 바로 실행하기 위한 비공식 보
 - 파일 상단 `Run JEOM` / `Check JEOM` CodeLens
 - 우클릭 메뉴와 명령 팔레트 실행
 - 공식 CLI 우선 실행, 내장 JS 엔진 fallback
-- Windows PowerShell 기준 실행
+- **크로스 플랫폼 지원**: Windows (PowerShell), Mac/Linux (bash)
 
 ## 실행 명령
 
@@ -80,6 +80,21 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-local-extension.ps1
 F5가 잘 안 되면 위의 로컬 설치 방식을 쓰는 편이 더 안정적입니다. 일반 VS Code 창에서 `Ctrl + F5`가 Node 디버거 실행으로 잡히면 `Debugger attached` 같은 문구와 긴 `NODE_OPTIONS` 명령이 출력될 수 있습니다. 깨끗하게 실행하려면 확장이 설치된 상태에서 `.jeom` 파일의 Run 버튼이나 `Run JEOM` CodeLens를 사용하세요.
 
 확장으로 실행할 때는 `.jeom` 파일이 이 저장소 밖에 있어도 됩니다. 기본적으로 공식 파일을 담은 `official/cli.js`를 먼저 사용하고, 없으면 `cli.js`, `jeom_cli.js` 순서로 fallback합니다.
+
+## 공식 파일 업데이트
+
+점랭이 업데이트될 때마다 `official/` 폴더의 파일들을 최신 버전으로 동기화할 수 있습니다.
+
+```bash
+npm run update-jeom
+```
+
+이 명령은 공식 웹사이트에서 다음 파일들을 자동으로 다운로드합니다:
+- `official/cli.js` — JEOM Node.js CLI
+- `official/engine.js` — JEOM 엔진
+- `official/std.jeom` — 표준 라이브러리
+
+업데이트 완료 시간은 `official/.version` 파일에 저장됩니다.
 
 ## CLI 경로 직접 지정
 

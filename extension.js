@@ -76,26 +76,43 @@ async function runJeom(context, uri, mode) {
 
   if (!commandBody) return;
 
-  const command = [
-    `$env:NODE_OPTIONS=''`,
-    `$env:VSCODE_INSPECTOR_OPTIONS=''`,
-    `Set-Location -LiteralPath ${quoteForPowerShell(cwd)}`,
-    commandBody
-  ].join('; ');
+  const isWindows = process.platform === 'win32';
+  const command = isWindows
+    ? buildWindowsCommand(cwd, commandBody)
+    : buildUnixCommand(cwd, commandBody);
 
-  terminal = terminal || createJeomTerminal();
+  terminal = terminal || createJeomTerminal(isWindows);
   terminal.show(true);
   terminal.sendText(command);
 }
 
-function createJeomTerminal() {
+function createJeomTerminal(isWindows) {
   return vscode.window.createTerminal({
     name: 'JEOM',
+    shellPath: isWindows ? undefined : '/bin/bash',
     env: {
       NODE_OPTIONS: '',
       VSCODE_INSPECTOR_OPTIONS: ''
     }
   });
+}
+
+function buildWindowsCommand(cwd, commandBody) {
+  return [
+    `$env:NODE_OPTIONS=''`,
+    `$env:VSCODE_INSPECTOR_OPTIONS=''`,
+    `Set-Location -LiteralPath ${quoteForPowerShell(cwd)}`,
+    commandBody
+  ].join('; ');
+}
+
+function buildUnixCommand(cwd, commandBody) {
+  return [
+    `export NODE_OPTIONS=''`,
+    `export VSCODE_INSPECTOR_OPTIONS=''`,
+    `cd ${quoteForBash(cwd)}`,
+    commandBody
+  ].join('; ');
 }
 
 function resolveTargetUri(uri) {
@@ -143,15 +160,21 @@ function resolveCommandBody(mode, vars) {
     return undefined;
   }
 
-  return `node ${quoteForPowerShell(vars.cliPath)} ${mode} ${quoteForPowerShell(vars.filePath)}`;
+  const isWindows = process.platform === 'win32';
+  const quote = isWindows ? quoteForPowerShell : quoteForBash;
+
+  return `node ${quote(vars.cliPath)} ${mode} ${quote(vars.filePath)}`;
 }
 
 function expandCommandTemplate(template, vars) {
+  const isWindows = process.platform === 'win32';
+  const quote = isWindows ? quoteForPowerShell : quoteForBash;
+
   const replacements = {
-    '${file}': quoteForPowerShell(vars.filePath),
-    '${filePath}': quoteForPowerShell(vars.filePath),
-    '${workspaceFolder}': quoteForPowerShell(vars.workspacePath),
-    '${cliPath}': quoteForPowerShell(vars.cliPath),
+    '${file}': quote(vars.filePath),
+    '${filePath}': quote(vars.filePath),
+    '${workspaceFolder}': quote(vars.workspacePath),
+    '${cliPath}': quote(vars.cliPath),
     '${mode}': vars.mode
   };
 
@@ -169,6 +192,10 @@ function resolveCwd(targetUri) {
 
 function quoteForPowerShell(value) {
   return `'${String(value).replace(/'/g, "''")}'`;
+}
+
+function quoteForBash(value) {
+  return `'${String(value).replace(/'/g, "'\"'\"'")}'`;
 }
 
 module.exports = {

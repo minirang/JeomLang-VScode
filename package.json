@@ -15,6 +15,9 @@
     "vscode"
   ],
   "main": "./extension.js",
+  "scripts": {
+    "update-jeom": "node scripts/update-official.js"
+  },
   "activationEvents": [
     "onLanguage:jeom",
     "onCommand:jeom.runFile",
