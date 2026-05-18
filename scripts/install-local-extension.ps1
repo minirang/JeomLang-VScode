@@ -1,6 +1,6 @@
 param(
   [string]$InstallRoot = "$env:USERPROFILE\.vscode\extensions",
-  [string]$ExtensionId = "local.jeom-vscode-runner-0.1.0"
+  [string]$ExtensionId = "local.jeom-vscode-runner-0.2.0"
 )
 
 $ErrorActionPreference = "Stop"
@@ -35,7 +35,7 @@ foreach ($dir in $dirs) {
   $sourceDir = Join-Path $repoRoot $dir
   $targetDir = Join-Path $target $dir
   New-Item -ItemType Directory -Force $targetDir | Out-Null
-  Copy-Item -LiteralPath (Join-Path $sourceDir "*") -Destination $targetDir -Recurse -Force
+  Copy-Item -Path (Join-Path $sourceDir "*") -Destination $targetDir -Recurse -Force
 }
 
 Write-Host "Installed JEOM VS Code Runner to:"
