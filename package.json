@@ -19,6 +19,7 @@
     "update-jeom": "node scripts/update-official.js"
   },
   "activationEvents": [
+    "onStartupFinished",
     "onLanguage:jeom",
     "onCommand:jeom.runFile",
     "onCommand:jeom.checkFile"
@@ -78,7 +79,7 @@
       "editor/title": [
         {
           "command": "jeom.runFile",
-          "when": "resourceLangId == jeom",
+          "when": "resourceLangId == jeom || resourceExtname == .jeom",
           "group": "navigation@1"
         }
       ],
@@ -130,7 +131,7 @@
         "jeom.cliPath": {
           "type": "string",
           "default": "",
-          "description": "Optional path to a JEOM CLI. Supports ${workspaceFolder}. If empty, the extension uses official/cli.js first, then cli.js or jeom_cli.js fallbacks."
+          "description": "Optional path to a JEOM CLI. Supports ${workspaceFolder}. If empty, the extension uses official/cli.js."
         },
         "jeom.runCommand": {
           "type": "string",

@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * jeom_cli.js — 점(Jeom) 언어 Node.js CLI
+ * cli.js — 점(Jeom) 언어 Node.js CLI
  *
  * 사용법:
- *   node jeom_cli.js run <file.jeom>
- *   node jeom_cli.js check <file.jeom>
- *   node jeom_cli.js encode "문자열"
- *   node jeom_cli.js encode-num <숫자>
- *   node jeom_cli.js decode <점코드>
- *   node jeom_cli.js tokens <file.jeom>
- *   node jeom_cli.js repl
- *   node jeom_cli.js new <file.jeom>
- *   node jeom_cli.js version
- *   node jeom_cli.js ops
+ *   node cli.js run <file.jeom>
+ *   node cli.js check <file.jeom>
+ *   node cli.js encode "문자열"
+ *   node cli.js encode-num <숫자>
+ *   node cli.js decode <점코드>
+ *   node cli.js tokens <file.jeom>
+ *   node cli.js repl
+ *   node cli.js new <file.jeom>
+ *   node cli.js version
+ *   node cli.js ops
  */
 
 'use strict';
@@ -22,10 +22,10 @@ const fs = require('fs');
 const path = require('path');
 const rl = require('readline');
 
-// jeom_engine.js 로드
-const enginePath = path.join(__dirname, 'jeom_engine.js');
+// engine.js 로드
+const enginePath = path.join(__dirname, 'engine.js');
 if (!fs.existsSync(enginePath)) {
-    console.error('오류: jeom_engine.js 를 찾을 수 없습니다. 같은 디렉터리에 있어야 합니다.');
+    console.error('오류: engine.js 를 찾을 수 없습니다. 같은 디렉터리에 있어야 합니다.');
     process.exit(1);
 }
 const JeomEngine = require(enginePath);
@@ -380,7 +380,7 @@ async function main() {
         console.log(`
 ${bold(cyan('점(Jeom) 언어 CLI'))} ${gray(`v${VERSION}`)}
 
-${yellow('사용법:')} node jeom_cli.js <명령> [옵션]
+${yellow('사용법:')} node cli.js <명령> [옵션]
 
 ${yellow('명령:')}
   ${cyan('run')}       <file.jeom>        파일 실행
@@ -396,9 +396,9 @@ ${yellow('명령:')}
   ${cyan('version')}                      버전 정보
 
 ${yellow('예제:')}
-  node jeom_cli.js run hello.jeom
-  node jeom_cli.js encode "안녕하세요"
-  node jeom_cli.js repl
+  node cli.js run hello.jeom
+  node cli.js encode "안녕하세요"
+  node cli.js repl
 `);
         return;
     }
@@ -499,7 +499,7 @@ ${yellow('예제:')}
             break;
         default:
             console.error(red(`알 수 없는 명령: ${cmd}`));
-            console.error(gray('도움말: node jeom_cli.js --help'));
+            console.error(gray('도움말: node cli.js --help'));
             process.exit(1);
     }
 }

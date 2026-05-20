@@ -132,11 +132,11 @@ function resolveCliPath(context, targetUri, workspacePath) {
 
   const candidates = [
     workspacePath ? path.join(workspacePath, 'official', 'cli.js') : '',
-    workspacePath ? path.join(workspacePath, 'cli.js') : '',
     workspacePath ? path.join(workspacePath, 'jeom_cli.js') : '',
+    workspacePath ? path.join(workspacePath, 'official', 'jeom_cli.js') : '',
     path.join(context.extensionPath, 'official', 'cli.js'),
-    path.join(context.extensionPath, 'cli.js'),
-    path.join(context.extensionPath, 'jeom_cli.js')
+    path.join(context.extensionPath, 'jeom_cli.js'),
+    path.join(context.extensionPath, 'official', 'jeom_cli.js')
   ].filter(Boolean);
 
   const found = candidates.find(candidate => fs.existsSync(candidate));

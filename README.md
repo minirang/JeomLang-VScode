@@ -42,7 +42,7 @@ node official\cli.js run <현재 .jeom 파일>
 node official\cli.js check <현재 .jeom 파일>
 ```
 
-`official/cli.js`가 없으면 확장은 기존 `jeom_cli.js`를 fallback으로 사용합니다.
+확장은 `official/cli.js`를 사용합니다.
 
 ## Ctrl + Shift + B로 실행
 
@@ -79,7 +79,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-local-extension.ps1
 
 F5가 잘 안 되면 위의 로컬 설치 방식을 쓰는 편이 더 안정적입니다. 일반 VS Code 창에서 `Ctrl + F5`가 Node 디버거 실행으로 잡히면 `Debugger attached` 같은 문구와 긴 `NODE_OPTIONS` 명령이 출력될 수 있습니다. 깨끗하게 실행하려면 확장이 설치된 상태에서 `.jeom` 파일의 Run 버튼이나 `Run JEOM` CodeLens를 사용하세요.
 
-확장으로 실행할 때는 `.jeom` 파일이 이 저장소 밖에 있어도 됩니다. 기본적으로 공식 파일을 담은 `official/cli.js`를 먼저 사용하고, 없으면 `cli.js`, `jeom_cli.js` 순서로 fallback합니다.
+확장으로 실행할 때는 `.jeom` 파일이 이 저장소 밖에 있어도 됩니다. 기본적으로 `official/cli.js`를 사용합니다.
 
 ## 공식 파일 업데이트
 
@@ -125,11 +125,9 @@ npm run update-jeom
 - `.vscode/settings.json`: `*.jeom` 파일 연결 및 Code Runner 확장 실행 명령
 - `.vscode/launch.json`: 확장 개발 호스트 실행 구성
 - `.vscode/jeom.code-snippets`: 워크스페이스 스니펫
-- `official/cli.js`: 원본 점랭 Node.js CLI
-- `official/engine.js`: 원본 점랭 공용 JS 엔진
-- `official/jeom_engine.js`: 공식 CLI 호환용 wrapper
-- `official/std.jeom`: 원본 점랭 표준 라이브러리
-- `jeom_cli.js`, `jeom_engine.js`: 기존 fallback 실행기와 엔진
+- `official/cli.js`: 공식 점랭 Node.js CLI
+- `official/engine.js`: 공식 점랭 JS 엔진
+- `official/std.jeom`: 공식 표준 라이브러리
 - `extension.js`: Run 버튼, CodeLens, 우클릭 메뉴, 명령 팔레트 실행 기능
 - `scripts/install-local-extension.ps1`: 현재 확장을 로컬 VS Code 확장 폴더에 설치
 - `COMPATIBILITY.md`: 공식 CLI/엔진 호환 방식 설명
