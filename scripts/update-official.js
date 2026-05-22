@@ -4,6 +4,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
+// Vendored copy of jeomlang core/ + stdlib/ for standalone extension installs.
+// See official/README.md and ABSORPTION.md.
 const OFFICIAL_DIR = path.join(__dirname, '..', 'official');
 const VERSION_FILE = path.join(OFFICIAL_DIR, '.version');
 

@@ -1,21 +1,25 @@
 # JEOM Compatibility
 
-이 확장은 `official/cli.js`를 사용합니다.
+이 확장은 CLI를 다음 순서로 찾습니다: `core/cli.js` → `official/cli.js` (워크스페이스·확장 번들).
 
 공식 엔진과의 호환성을 유지하려면 `npm run update-jeom`으로 `official/` 폴더를 최신 공식 파일로 갱신하면 됩니다.
 
 ## Bundled Official Files
 
 ```text
-official/
-  cli.js
-  engine.js
-  std.jeom
-  .version
+jeomlang/                    (공식 모노레포)
+  core/cli.js
+  core/engine.js
+  stdlib/std.jeom
+
+이 리포 (단독 확장)/
+  official/cli.js            ← core/cli.js 사본
+  official/engine.js
+  official/std.jeom
 ```
 
-`official/cli.js`는 같은 폴더의 `engine.js`를 로드합니다.
-파일 이름은 공식 사이트 다운로드 URL(`cli.js`, `engine.js`)과 동일합니다.
+`official/cli.js`는 같은 폴더의 `engine.js`를 로드합니다.  
+공식 리포 루트를 VS Code로 열면 `core/cli.js`가 우선됩니다.
 
 ## External CLI Mode
 
@@ -61,7 +65,7 @@ VS Code 설정에 다음처럼 지정할 수 있습니다.
 `jeom.runCommand`와 `jeom.checkCommand`를 비워두면 다음 경로를 사용합니다.
 
 ```text
-VS Code extension -> node official/cli.js run/check file.jeom -> official/engine.js
+VS Code extension -> node core/cli.js (또는 official/cli.js) run/check file.jeom
 ```
 
 ## Compatibility Check

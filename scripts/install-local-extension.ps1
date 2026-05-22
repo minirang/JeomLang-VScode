@@ -56,8 +56,9 @@ foreach ($installRoot in $InstallRoots) {
     Copy-Item -Path (Join-Path $sourceDir "*") -Destination $targetDir -Recurse -Force
   }
 
-  if (-not (Test-Path (Join-Path $target "official\cli.js"))) {
-    throw "Install failed: official\cli.js not found in $target"
+  $bundledCli = Join-Path $target "official\cli.js"
+  if (-not (Test-Path $bundledCli)) {
+    throw "Install failed: official\cli.js not found in $target (run npm run update-jeom if missing)"
   }
 
   Write-Host "Installed JEOM VS Code Runner to:"

@@ -1,8 +1,8 @@
 {
   "name": "jeom-vscode-runner",
   "displayName": "JEOM VS Code Runner",
-  "description": "Unofficial VS Code runner and language helpers for JEOM .jeom files.",
-  "version": "0.2.0",
+  "description": "VS Code runner and language helpers for JEOM .jeom files (targets jeomlang tools/vscode-extension).",
+  "version": "0.2.1",
   "publisher": "local",
   "private": true,
   "icon": "assets/jeom-icon.svg",
@@ -131,7 +131,7 @@
         "jeom.cliPath": {
           "type": "string",
           "default": "",
-          "description": "Optional path to a JEOM CLI. Supports ${workspaceFolder}. If empty, the extension uses official/cli.js."
+          "description": "Optional path to a JEOM CLI. Supports ${workspaceFolder}. If empty, uses core/cli.js or official/cli.js in the workspace or extension bundle."
         },
         "jeom.runCommand": {
           "type": "string",

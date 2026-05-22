@@ -130,13 +130,20 @@ function resolveCliPath(context, targetUri, workspacePath) {
       .replace(/\//g, path.sep);
   }
 
-  const candidates = [
-    workspacePath ? path.join(workspacePath, 'official', 'cli.js') : '',
-    path.join(context.extensionPath, 'official', 'cli.js')
-  ].filter(Boolean);
-
+  const candidates = buildCliCandidates(context.extensionPath, workspacePath);
   const found = candidates.find(candidate => fs.existsSync(candidate));
   return found || path.join(context.extensionPath, 'official', 'cli.js');
+}
+
+/** @returns {string[]} jeomlang monorepo (core/) then standalone bundle (official/) */
+function buildCliCandidates(extensionPath, workspacePath) {
+  const rel = (base, ...parts) => (base ? path.join(base, ...parts) : '');
+  return [
+    rel(workspacePath, 'core', 'cli.js'),
+    rel(workspacePath, 'official', 'cli.js'),
+    rel(extensionPath, 'core', 'cli.js'),
+    rel(extensionPath, 'official', 'cli.js')
+  ].filter(Boolean);
 }
 
 function resolveCommandBody(mode, vars) {
