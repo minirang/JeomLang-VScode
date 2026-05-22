@@ -132,15 +132,11 @@ function resolveCliPath(context, targetUri, workspacePath) {
 
   const candidates = [
     workspacePath ? path.join(workspacePath, 'official', 'cli.js') : '',
-    workspacePath ? path.join(workspacePath, 'jeom_cli.js') : '',
-    workspacePath ? path.join(workspacePath, 'official', 'jeom_cli.js') : '',
-    path.join(context.extensionPath, 'official', 'cli.js'),
-    path.join(context.extensionPath, 'jeom_cli.js'),
-    path.join(context.extensionPath, 'official', 'jeom_cli.js')
+    path.join(context.extensionPath, 'official', 'cli.js')
   ].filter(Boolean);
 
   const found = candidates.find(candidate => fs.existsSync(candidate));
-  return found || path.join(context.extensionPath, 'jeom_cli.js');
+  return found || path.join(context.extensionPath, 'official', 'cli.js');
 }
 
 function resolveCommandBody(mode, vars) {

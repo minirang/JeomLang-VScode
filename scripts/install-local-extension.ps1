@@ -17,8 +17,6 @@ if ($ExtensionId -notmatch [regex]::Escape($version)) {
 $files = @(
   "package.json",
   "extension.js",
-  "jeom_cli.js",
-  "jeom_engine.js",
   "language-configuration.json",
   "README.md",
   "COMPATIBILITY.md"
