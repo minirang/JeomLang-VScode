@@ -11,7 +11,7 @@
 |----------------|------------------|
 | `package.json`, `extension.js` | `tools/vscode-extension/` |
 | `syntaxes/`, `snippets/`, `language-configuration.json` | 동일 |
-| `assets/` | 동일 |
+| `assets/` | 이미지 변경 필요 |
 | `scripts/install-local-extension.ps1` | 동일 (경로만 조정) |
 | `official/cli.js` 등 | **삭제 가능** — 대신 `../../core/cli.js` 참조 |
 | `scripts/update-official.js` | 공식 리포에서는 `core/` 직접 사용 또는 sync 스크립트로 대체 |
@@ -28,11 +28,9 @@
 4. 확장 설치 폴더 `core/cli.js` / `official/cli.js`
 
 ## 흡수 단계 (권장 순서)
-
-1. **지금**: 이 리포에서 확장 동작·이름(`cli.js` / `engine.js`) 안정화
-2. **PR 1**: `tools/vscode-extension/`에 확장 파일만 복사 (빈 `temp` 제거)
-3. **PR 2**: `extension.js`가 `core/cli.js`만 쓰도록 정리, `official/` 번들 제거 여부 결정
-4. **PR 3**: README·Marketplace 메타, 라이선스(Apache-2.0) 맞추기
+1. **PR 1**: `tools/vscode-extension/`에 확장 파일만 복사 (빈 `temp` 제거)
+2. **PR 2**: `extension.js`가 `core/cli.js`만 쓰도록 정리, `official/` 번들 제거 여부 결정(
+3. **PR 3**: README·Marketplace 메타 맞추기
 
 ## 파일 이름 규칙
 
