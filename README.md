@@ -1,110 +1,84 @@
-# <img src="assets/jeom-icon.svg" width="22" alt="JEOM" /> JEOM VS Code Runner
+# JEOM VS Code Runner
 
-<p>
-  <a href="README.md">📖 <strong>README</strong></a>
-  &nbsp;&nbsp;
-  <a href="COMPATIBILITY.md">🔗 <strong>Compatibility</strong></a>
-  &nbsp;&nbsp;
-  <a href="ABSORPTION.md">📦 <strong>공식 리포 흡수</strong></a>
-</p>
+JEOM(`.jeom`) 파일을 VS Code에서 바로 인식하고 실행할 수 있게 해 주는 로컬 확장 프로젝트입니다.
 
-VS Code에서 점랭(`.jeom`) 파일을 바로 실행하기 위한 확장 프로젝트입니다.  
-공식 [jeomlang](https://github.com/minirang/jeomlang)의 `tools/vscode-extension/`으로 흡수 예정입니다.
-
-원본 점랭 프로젝트:
+이 저장소는 JeomLang 자체의 공식 구현이 아니라, VS Code에서 `.jeom` 파일을 더 편하게 작성하고 실행하기 위한 도구입니다. 실행에는 워크스페이스의 `core/cli.js` 또는 이 저장소에 포함된 `official/cli.js`를 사용합니다.
 
 - Website: https://jeomlang.vercel.app/
 - GitHub: https://github.com/minirang/jeomlang
-
-이 저장소의 목적은 점랭 언어 자체를 소유하거나 배포하는 것이 아니라, VS Code에서 `.jeom` 파일을 Python/C처럼 VS CODE로 실행할 수 있게 만드는 것입니다.
 
 ## 기능
 
 - `.jeom` 파일 언어 인식
 - `.jeom` 파일 아이콘 표시
-- 기본 문법 하이라이트
+- JeomLang TextMate 구문 강조
+- 주석, 숫자 리터럴, 문자열 리터럴, 제어문, 함수/변수, 연산자, IO, 타입, 스택, 컬렉션, 파일 시스템, 시스템 명령 강조
 - 기본 스니펫
-- `Ctrl + Shift + B`로 현재 `.jeom` 파일 실행
-- 에디터 오른쪽 위 Run 버튼으로 실행
-- 파일 상단 `Run JEOM` / `Check JEOM` CodeLens
-- 우클릭 메뉴와 명령 팔레트 실행
-- `core/cli.js` 또는 번들 `official/cli.js`로 실행
-- **크로스 플랫폼 지원**: Windows (PowerShell), Mac/Linux (bash)
+- 편집기 상단 `Run JEOM` / `Check JEOM` CodeLens
+- 편집기 메뉴, 탐색기 메뉴, 명령 팔레트 실행
+- `Ctrl + F5`로 현재 `.jeom` 파일 실행
+- Windows PowerShell, macOS/Linux shell 실행 지원
 
-## 실행 명령
+## 구문 강조
 
-현재 열린 `.jeom` 파일을 아래 명령으로 실행합니다.
+구문 강조 정의는 [syntaxes/jeom.tmLanguage.json](syntaxes/jeom.tmLanguage.json)에 있습니다.
 
-```powershell
-node official\cli.js run <현재 .jeom 파일>
+VS Code는 `package.json`의 `contributes.grammars` 설정을 통해 `.jeom` 파일에 `source.jeom` grammar를 적용합니다.
+
+```json
+{
+  "language": "jeom",
+  "scopeName": "source.jeom",
+  "path": "./syntaxes/jeom.tmLanguage.json"
+}
 ```
 
-문법 검사는 아래 명령으로 실행합니다.
+이 grammar는 JeomLang 엔진의 명령 토큰과 맞춰져 있으며, 토큰 경계를 확인해서 사용자 정의 이름이 기존 명령의 접두사로 잘못 쪼개져 보이는 일을 줄입니다.
 
-```powershell
-node official\cli.js check <현재 .jeom 파일>
-```
+## 설치
 
-확장은 워크스페이스의 `core/cli.js`(공식 리포) 또는 `official/cli.js`(이 리포 번들)를 사용합니다.
-
-## Ctrl + Shift + B로 실행
-
-1. VS Code에서 이 폴더를 엽니다.
-2. 실행할 `.jeom` 파일을 엽니다.
-3. `Ctrl + Shift + B`를 누릅니다.
-4. `JEOM: Run Current File` 작업이 실행됩니다.
-
-## Run 버튼으로 실행
-
-Run 버튼과 문법 하이라이트는 VS Code 확장 기능입니다. 현재 VS Code 창에 확장으로 설치되어야 Python처럼 에디터 오른쪽 위 실행 버튼이 나타납니다.
-
-### 권장: 로컬 확장으로 설치
-
-PowerShell에서 아래 명령을 실행합니다.
+PowerShell에서 다음 명령을 실행하면 현재 확장을 로컬 VS Code 확장 폴더에 설치합니다.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install-local-extension.ps1
 ```
 
-그 다음 VS Code를 `Developer: Reload Window`로 다시 불러오거나 완전히 껐다 켭니다. 이후 `.jeom` 파일을 열면 다음이 나타납니다.
+설치 후 VS Code에서 `Developer: Reload Window`를 실행하거나 VS Code를 다시 열면 적용됩니다.
 
-- 파일 언어 모드: `JEOM`
-- 문법 하이라이트
-- 파일 상단 `Run JEOM` / `Check JEOM`
-- 에디터 오른쪽 위 재생 버튼
+적용되면 `.jeom` 파일에서 다음을 확인할 수 있습니다.
 
-### 개발 모드: F5로 실행
+- 언어 모드: `JEOM`
+- 구문 강조
+- 파일 아이콘
+- `Run JEOM` / `Check JEOM` CodeLens
+- 편집기 오른쪽 위 실행 버튼
+
+## 개발 모드
 
 1. 이 저장소를 VS Code로 엽니다.
 2. `F5`를 눌러 `Run JEOM VS Code Extension`을 실행합니다.
 3. 새로 열린 Extension Development Host 창에서 `.jeom` 파일을 엽니다.
-4. 에디터 오른쪽 위 재생 버튼, `Run JEOM` CodeLens, 또는 `Ctrl + F5`로 실행합니다.
+4. 구문 강조, CodeLens, 실행 명령을 확인합니다.
 
-F5가 잘 안 되면 위의 로컬 설치 방식을 쓰는 편이 더 안정적입니다. 일반 VS Code 창에서 `Ctrl + F5`가 Node 디버거 실행으로 잡히면 `Debugger attached` 같은 문구와 긴 `NODE_OPTIONS` 명령이 출력될 수 있습니다. 깨끗하게 실행하려면 확장이 설치된 상태에서 `.jeom` 파일의 Run 버튼이나 `Run JEOM` CodeLens를 사용하세요.
+## 실행 명령
 
-확장으로 실행할 때는 `.jeom` 파일이 이 저장소 밖에 있어도 됩니다. 기본적으로 `official/cli.js`를 사용합니다.
+현재 열린 `.jeom` 파일은 기본적으로 다음 명령으로 실행됩니다.
 
-## 공식 파일 업데이트
-
-점랭이 업데이트될 때마다 `official/` 폴더의 파일들을 최신 버전으로 동기화할 수 있습니다.
-
-```bash
-npm run update-jeom
+```powershell
+node official\cli.js run <현재 .jeom 파일>
 ```
 
-이 명령은 공식 웹사이트에서 다음 파일들을 `official/`에 다운로드합니다 (`core/`, `stdlib/`와 동일 내용):
+문법 검사는 다음 명령을 사용합니다.
 
-- `official/cli.js` ← `core/cli.js`
-- `official/engine.js` ← `core/engine.js`
-- `official/std.jeom` ← `stdlib/std.jeom`
+```powershell
+node official\cli.js check <현재 .jeom 파일>
+```
 
-업데이트 완료 시간은 `official/.version` 파일에 저장됩니다.
+워크스페이스에 공식 저장소의 `core/cli.js`가 있으면 그것을 우선 사용하고, 없으면 이 확장에 포함된 `official/cli.js`를 사용합니다.
 
-## CLI 경로 직접 지정
+## 설정
 
-다른 위치의 점랭 CLI를 쓰고 싶다면 VS Code 설정에서 `jeom.cliPath`를 지정하면 됩니다.
-
-예:
+다른 위치의 JeomLang CLI를 사용하려면 VS Code 설정에서 `jeom.cliPath`를 지정할 수 있습니다.
 
 ```json
 {
@@ -112,7 +86,7 @@ npm run update-jeom
 }
 ```
 
-공식 CLI의 명령 형식이 다르거나 전역 명령을 쓰고 싶다면 `jeom.runCommand`와 `jeom.checkCommand`를 지정할 수 있습니다.
+직접 실행 명령을 지정하려면 `jeom.runCommand`와 `jeom.checkCommand`를 사용할 수 있습니다.
 
 ```json
 {
@@ -121,30 +95,30 @@ npm run update-jeom
 }
 ```
 
-자세한 호환 방식은 `COMPATIBILITY.md`를 참고하세요.
+지원되는 치환값은 `${file}`, `${filePath}`, `${workspaceFolder}`, `${cliPath}`, `${mode}`입니다.
 
-## 포함된 파일
+## 공식 파일 업데이트
 
-- `.vscode/tasks.json`: 현재 열린 `.jeom` 파일 실행, `Ctrl + Shift + B` 기본 작업
-- `.vscode/settings.json`: `*.jeom` 파일 연결 및 Code Runner 확장 실행 명령
-- `.vscode/launch.json`: 확장 개발 호스트 실행 구성
-- `.vscode/jeom.code-snippets`: 워크스페이스 스니펫
-- `official/`: 공식 `core/`·`stdlib/` 사본 (단독 확장 설치용)
-- `ABSORPTION.md`: 공식 리포 `tools/vscode-extension/` 흡수 가이드
-- `extension.js`: Run 버튼, CodeLens, 우클릭 메뉴, 명령 팔레트 실행 기능
-- `scripts/install-local-extension.ps1`: 현재 확장을 로컬 VS Code 확장 폴더에 설치
-- `COMPATIBILITY.md`: 공식 CLI/엔진 호환 방식 설명
-- `syntaxes/jeom.tmLanguage.json`: 기본 TextMate 문법 하이라이트 정의
-- `language-configuration.json`: 주석, 괄호, 자동 닫기 설정
-- `assets/jeom-icon.svg`: JEOM 파일 아이콘
-- `package.json`: VS Code 확장 메타데이터
+공식 JeomLang 파일을 다시 받아오려면 다음 명령을 실행합니다.
 
-## 참고
+```bash
+npm run update-jeom
+```
 
-점랭 언어 사양과 예제는 원본 사이트와 원본 GitHub 저장소를 기준으로 확인하세요. 이 저장소는 VS Code 실행 환경을 붙이는 용도입니다.
+이 명령은 공식 사이트/CDN에서 다음 파일을 `official/` 폴더로 동기화합니다.
 
-## GitHub Actions 봇 커밋 데모
+- `official/cli.js`
+- `official/engine.js`
+- `official/std.jeom`
 
-`github-actions[bot]` 커밋을 테스트하려면 GitHub 저장소의 Actions 탭에서 `Actions Bot Demo` 워크플로를 수동 실행하면 됩니다.
+업데이트 완료 시간은 `official/.version`에 저장됩니다.
 
-실행하면 GitHub 서버에서 `ACTIONS_BOT_DEMO.md`를 갱신하고, `github-actions[bot]` author로 커밋합니다.
+## 주요 파일
+
+- [package.json](package.json): VS Code 확장 메타데이터와 contribution 설정
+- [extension.js](extension.js): 실행 버튼, CodeLens, 메뉴, 명령 실행 기능
+- [syntaxes/jeom.tmLanguage.json](syntaxes/jeom.tmLanguage.json): JeomLang TextMate 구문 강조
+- [language-configuration.json](language-configuration.json): 주석, 괄호, 자동 닫기 설정
+- [snippets/jeom.code-snippets](snippets/jeom.code-snippets): 기본 스니펫
+- [scripts/install-local-extension.ps1](scripts/install-local-extension.ps1): 로컬 확장 설치 스크립트
+- [official/](official): 번들된 JeomLang CLI/엔진/표준 라이브러리

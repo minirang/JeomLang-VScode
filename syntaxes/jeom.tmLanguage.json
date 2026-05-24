@@ -1,93 +1,223 @@
 {
-  "name": "JEOM",
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "JeomLang",
   "scopeName": "source.jeom",
+  "fileTypes": [
+    "jeom"
+  ],
   "patterns": [
     {
-      "name": "comment.line.jeom",
-      "match": "\u25d8.*$"
+      "include": "#comments"
     },
     {
-      "name": "keyword.control.main.jeom",
-      "match": "\u2022\u00b7"
+      "include": "#strings"
     },
     {
-      "name": "keyword.control.end.jeom",
-      "match": "\u22ee\u22ee"
+      "include": "#numbers"
     },
     {
-      "name": "string.quoted.jeom",
-      "begin": "\u25cf",
-      "end": "\u25cf",
+      "include": "#control"
+    },
+    {
+      "include": "#declarations"
+    },
+    {
+      "include": "#io"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#stack"
+    },
+    {
+      "include": "#collections"
+    },
+    {
+      "include": "#filesystem"
+    },
+    {
+      "include": "#system"
+    },
+    {
+      "include": "#names"
+    },
+    {
+      "include": "#invalid"
+    }
+  ],
+  "repository": {
+    "comments": {
       "patterns": [
         {
-          "name": "constant.character.binary.jeom",
-          "match": "[.\u00b7]{8}"
-        },
-        {
-          "name": "punctuation.separator.byte.jeom",
-          "match": "\u2027"
+          "name": "comment.line.jeom",
+          "match": "◘.*$"
         }
       ]
     },
-    {
-      "name": "constant.numeric.jeom",
-      "match": "\u2022[.\u00b7\u2025]+\u2022"
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.jeom",
+          "begin": "●",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.jeom"
+            }
+          },
+          "end": "●",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.jeom"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.byte.binary.jeom",
+              "match": "[.·]{8}"
+            },
+            {
+              "name": "punctuation.separator.byte.jeom",
+              "match": "‧"
+            },
+            {
+              "name": "invalid.illegal.string-byte.jeom",
+              "match": "[^\\s.·‧●]+|[.·]{1,7}(?![.·])"
+            }
+          ]
+        }
+      ]
     },
-    {
-      "name": "keyword.control.jeom",
-      "match": "\u2026\u00b7|\u2026\u2025|\u2026|\u2025\u00b7\u00b7|\u2025\u00b7\u02d9|\u2025\u00b7\u2218|\u2025\u00b7\u2981|\u2025\u00b7|\u2025\u2025|\u2025\u2218\u2218|\u2025\u2218|\u2025"
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])•[.·]*•(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "constant.numeric.float.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])•[.·]*‥[.·]*•(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "storage.type.function.jeom",
-      "match": "\u02d9\u02d9\u02d9|\u02d9\u02d9|\u02d9\u2218\u2218|\u02d9\u2218|\u02d9"
+    "control": {
+      "patterns": [
+        {
+          "name": "keyword.control.main.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])•·(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "keyword.control.conditional.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:…‥|…·|…)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "keyword.control.loop.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:‥∘∘|‥∘|‥‥|‥)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "keyword.control.exception.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:‥·⦁|‥·˙|‥··|‥·)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "punctuation.section.block.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⋮⋮|⋮)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "storage.modifier.variable.jeom",
-      "match": "\u2218\u2218\u2218|\u2218\u2218|\u2218"
+    "declarations": {
+      "patterns": [
+        {
+          "name": "storage.modifier.variable.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:∘∘∘|∘∘|∘⋅|∘)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "storage.type.function.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:˙∘∘|˙∘|˙⦁|˙⋅|˙˙˙|˙˙|˙)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "support.function.io.jeom",
-      "match": "\u00b7\u02d9\u02d9|\u00b7\u02d9|\u00b7\u2218|\u00b7\u2981|\u00b7\u00b7|\u00b7"
+    "io": {
+      "patterns": [
+        {
+          "name": "support.function.io.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:·˙˙|·˙|·∘|·⦁|··|·)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "keyword.operator.arithmetic.jeom",
-      "match": "\u22c5\u2218\u2218\u2218|\u22c5\u2218\u2218|\u22c5\u2218|\u22c5\u22c5\u22c5|\u22c5\u22c5|\u22c5"
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⋅∘∘∘|⋅∘∘|⋅∘|⋅⋅⋅|⋅⋅|⋅)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "keyword.operator.logical.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⋅⦁⦁⦁|⋅⦁⦁|⋅⦁∘|⋅⦁)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        },
+        {
+          "name": "keyword.operator.comparison.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⋅‧∘∘∘|⋅‧∘∘|⋅‧∘|⋅‧‧‧|⋅‧‧|⋅‧)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "keyword.operator.comparison.jeom",
-      "match": "\u22c5\u2027\u2218\u2218\u2218|\u22c5\u2027\u2218\u2218|\u22c5\u2027\u2218|\u22c5\u2027\u2027\u2027|\u22c5\u2027\u2027|\u22c5\u2027"
+    "types": {
+      "patterns": [
+        {
+          "name": "support.function.conversion.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⸳⸳⸳|⸳⸳|⸳∘|⸳⦁|⸳⋅|⸳‧|⸳)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "keyword.operator.logical.jeom",
-      "match": "\u22c5\u2981\u2218|\u22c5\u2981\u2981\u2981|\u22c5\u2981\u2981|\u22c5\u2981"
+    "stack": {
+      "patterns": [
+        {
+          "name": "support.function.stack.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⦁∘⦁|⦁⦁⦁|⦁⦁|⦁∘|⦁)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "support.function.type.jeom",
-      "match": "\u2e33\u2e33\u2e33|\u2e33\u2e33|\u2e33\u2218|\u2e33\u2981|\u2e33\u22c5|\u2e33\u2027|\u2e33"
+    "collections": {
+      "patterns": [
+        {
+          "name": "support.function.collection.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:◦⋅⋅⋅|◦‧‧‧|◦∘∘|◦⦁⦁|◦◦◦|◦⋅⋅|◦‧‧|◦∘|◦⦁|◦⋅|◦‧|◦◦|◦)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "support.function.stack.jeom",
-      "match": "\u2981\u2218\u2981|\u2981\u2981\u2981|\u2981\u2981|\u2981\u2218|\u2981"
+    "filesystem": {
+      "patterns": [
+        {
+          "name": "support.function.filesystem.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⋯·⦁⦁|⋯·⦁|⋯·˙|⋯⋯⋯|⋯∘∘|⋯⦁⦁|⋯⋯|⋯∘|⋯⦁|⋯⋅|⋯‧|⋯·|⋯)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "support.function.collection.jeom",
-      "match": "\u25e6\u22c5\u22c5\u22c5|\u25e6\u2027\u2027\u2027|\u25e6\u2218\u2218|\u25e6\u2981\u2981|\u25e6\u25e6\u25e6|\u25e6\u22c5\u22c5|\u25e6\u2027\u2027|\u25e6\u2218|\u25e6\u2981|\u25e6\u22c5|\u25e6\u2027|\u25e6\u25e6|\u25e6"
+    "system": {
+      "patterns": [
+        {
+          "name": "support.function.system.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])(?:⋮‧‧‧|⋮··|⋮·∘|⋮·⦁|⋮∘∘|⋮‧‧|⋮·|⋮∘|⋮⦁|⋮⋅|⋮‧)(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "support.function.filesystem.jeom",
-      "match": "\u22ef\u00b7\u2981\u2981|\u22ef\u00b7\u2981|\u22ef\u00b7\u02d9|\u22ef\u22ef\u22ef|\u22ef\u2218\u2218|\u22ef\u2981\u2981|\u22ef\u22ef|\u22ef\u2218|\u22ef\u2981|\u22ef\u22c5|\u22ef\u2027|\u22ef\u00b7|\u22ef"
+    "names": {
+      "patterns": [
+        {
+          "name": "entity.name.variable.jeom",
+          "match": "(?<![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])[.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘]+(?![.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘])"
+        }
+      ]
     },
-    {
-      "name": "support.function.system.jeom",
-      "match": "\u22ee\u00b7\u00b7|\u22ee\u00b7\u2218|\u22ee\u00b7\u2981|\u22ee\u2027\u2027\u2027|\u22ee\u2027\u2027|\u22ee\u2218\u2218|\u22ee\u00b7|\u22ee\u2218|\u22ee\u2981|\u22ee\u22c5|\u22ee\u2027"
-    },
-    {
-      "name": "punctuation.dot.leader.jeom",
-      "match": "\u2024"
-    },
-    {
-      "name": "entity.name.variable.jeom",
-      "match": "[^\\s\u25d8\u2022\u25cf\u00b7\u02d9\u2025\u2026\u2218\u22c5\u2981\u2e33\u25e6\u22ef\u22ee]+"
+    "invalid": {
+      "patterns": [
+        {
+          "name": "invalid.illegal.character.jeom",
+          "match": "[^\\s.·˙•․‥…‧∘⋅●◦⦁⸳⋮⋯◘]+"
+        }
+      ]
     }
-  ]
+  }
 }
